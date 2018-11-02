@@ -13,7 +13,9 @@ function convert_file(source, target) {
         console.error('Target file is not in json format! ('+ target +')');
         process.exit(1);
     }
-    console.log('Converting! ', source, target);
+    if(!program.silent) {
+        console.log('Converting! ', source, target);
+    }
 
     var source_obj = fs.readFileSync(path.resolve(source));
     var parsed_source = po2json.parse(source_obj);
@@ -30,6 +32,7 @@ program
     .usage('[options] <source> <target>')
     .arguments('<source> <target>')
     .option('-r, --recursive', 'Recursively convert all files in directory')
+    .option('-s, --silent', 'Do not show any non-error output')
     .parse(process.argv);
 
 var NO_COMMAND_SPECIFIED = program.args.length === 0;
